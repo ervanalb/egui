@@ -20,9 +20,9 @@ fn unpack_color(color: u32) -> vec4<f32> {
         f32((color >> 24u) & 255u),
     ) / 255.0;
 
-    let cutoff = srgb < vec3<f32>(0.04045);
-    let lower = srgb / vec3<f32>(12.92);
-    let higher = pow((srgb + vec3<f32>(0.055)) / vec3<f32>(1.055), vec3<f32>(2.4));
+    let cutoff = srgb < vec4<f32>(0.04045);
+    let lower = srgb / vec4<f32>(12.92);
+    let higher = pow((srgb + vec4<f32>(0.055)) / vec4<f32>(1.055), vec4<f32>(2.4));
     return select(higher, lower, cutoff);
 }
 
