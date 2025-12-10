@@ -359,7 +359,7 @@ impl Renderer {
 
                 fragment: Some(wgpu::FragmentState {
                     module: &module,
-                    entry_point: Some("fs_main_framebuffer"),
+                    entry_point: Some("fs_main"),
                     targets: &[Some(wgpu::ColorTargetState {
                         format: output_color_format,
                         blend: Some(wgpu::BlendState {
