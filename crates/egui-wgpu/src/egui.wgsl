@@ -2,7 +2,7 @@
 
 struct VertexOutput {
     @location(0) tex_coord: vec2<f32>,
-    @location(1) color: vec4<f32>, // gamma 0-1
+    @location(1) color: vec4<f32>,
     @builtin(position) position: vec4<f32>,
 };
 
@@ -59,5 +59,5 @@ fn vs_main(
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     let tex = textureSample(r_tex_color, r_tex_sampler, in.tex_coord);
     var out_color = in.color * tex;
-    return vec4<f32>(out_color, out_color_gamma.a);
+    return vec4<f32>(out_color, out_color.a);
 }
