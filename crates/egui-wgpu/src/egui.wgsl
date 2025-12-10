@@ -58,6 +58,5 @@ fn vs_main(
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     let tex = textureSample(r_tex_color, r_tex_sampler, in.tex_coord);
-    var out_color = in.color * tex;
-    return vec4<f32>(out_color, out_color.a);
+    return in.color * tex;
 }
