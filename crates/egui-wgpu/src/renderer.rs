@@ -145,12 +145,6 @@ impl ScreenDescriptor {
 #[repr(C)]
 struct UniformBuffer {
     screen_size_in_points: [f32; 2],
-    dithering: u32,
-
-    /// 1 to do manual filtering for more predictable kittest snapshot images.
-    ///
-    /// See also <https://github.com/emilk/egui/issues/5295>.
-    predictable_texture_filtering: u32,
 }
 
 struct SlicedBuffer {
@@ -190,37 +184,6 @@ pub struct RendererOptions {
     ///
     /// egui doesn't need depth/stencil, so the default value is `None` (no depth or stancil buffers).
     pub depth_stencil_format: Option<wgpu::TextureFormat>,
-
-    /// Controls whether to apply dithering to minimize banding artifacts.
-    ///
-    /// Dithering assumes an sRGB output and thus will apply noise to any input value that lies between
-    /// two 8bit values after applying the sRGB OETF function, i.e. if it's not a whole 8bit value in "gamma space".
-    /// This means that only inputs from texture interpolation and vertex colors should be affected in practice.
-    ///
-    /// Defaults to true.
-    pub dithering: bool,
-
-    /// Perform texture filtering in software?
-    ///
-    /// This is useful when you want predictable rendering across
-    /// different hardware, e.g. for kittest snapshots.
-    ///
-    /// Default is `false`.
-    ///
-    /// See also <https://github.com/emilk/egui/issues/5295>.
-    pub predictable_texture_filtering: bool,
-}
-
-impl RendererOptions {
-    /// Set options that produce the most predicatable output.
-    ///
-    /// Useful for image snapshot tests.
-    pub const PREDICTABLE: Self = Self {
-        msaa_samples: 1,
-        depth_stencil_format: None,
-        dithering: false,
-        predictable_texture_filtering: true,
-    };
 }
 
 impl Default for RendererOptions {
@@ -228,8 +191,6 @@ impl Default for RendererOptions {
         Self {
             msaa_samples: 0,
             depth_stencil_format: None,
-            dithering: true,
-            predictable_texture_filtering: false,
         }
     }
 }
@@ -252,8 +213,6 @@ pub struct Renderer {
     textures: HashMap<epaint::TextureId, Texture>,
     next_user_texture_id: u64,
     samplers: HashMap<epaint::textures::TextureOptions, wgpu::Sampler>,
-
-    options: RendererOptions,
 
     /// Storage for resources shared with all invocations of [`CallbackTrait`]'s methods.
     ///
@@ -286,8 +245,6 @@ impl Renderer {
             label: Some("egui_uniform_buffer"),
             contents: bytemuck::cast_slice(&[UniformBuffer {
                 screen_size_in_points: [0.0, 0.0],
-                dithering: u32::from(options.dithering),
-                predictable_texture_filtering: u32::from(options.predictable_texture_filtering),
             }]),
             usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
         });
@@ -402,12 +359,7 @@ impl Renderer {
 
                 fragment: Some(wgpu::FragmentState {
                     module: &module,
-                    entry_point: Some(if output_color_format.is_srgb() {
-                        log::warn!("Detected a linear (sRGBA aware) framebuffer {output_color_format:?}. egui prefers Rgba8Unorm or Bgra8Unorm");
-                        "fs_main_linear_framebuffer"
-                    } else {
-                        "fs_main_gamma_framebuffer" // this is what we prefer
-                    }),
+                    entry_point: Some("fs_main_framebuffer"),
                     targets: &[Some(wgpu::ColorTargetState {
                         format: output_color_format,
                         blend: Some(wgpu::BlendState {
@@ -457,7 +409,6 @@ impl Renderer {
             textures: HashMap::default(),
             next_user_texture_id: 0,
             samplers: HashMap::default(),
-            options,
             callback_resources: CallbackResources::default(),
         }
     }
@@ -901,8 +852,6 @@ impl Renderer {
 
         let uniform_buffer_content = UniformBuffer {
             screen_size_in_points,
-            dithering: u32::from(self.options.dithering),
-            predictable_texture_filtering: u32::from(self.options.predictable_texture_filtering),
         };
         if uniform_buffer_content != self.previous_uniform_buffer_content {
             profiling::scope!("update uniforms");
