@@ -8,13 +8,6 @@ struct VertexOutput {
 
 struct Locals {
     screen_size: vec2<f32>,
-
-    /// 1 if dithering is enabled, 0 otherwise
-    dithering: u32,
-
-    /// 1 to do manual filtering for more predictable kittest snapshot images.
-    /// See also https://github.com/emilk/egui/issues/5295
-    predictable_texture_filtering: u32,
 };
 @group(0) @binding(0) var<uniform> r_locals: Locals;
 
