@@ -11,14 +11,19 @@ struct Locals {
 };
 @group(0) @binding(0) var<uniform> r_locals: Locals;
 
-// [u8; 4] SRGB as u32 -> [r, g, b, a] in 0.-1
+// [u8; 4] SRGB as u32 -> [r, g, b, a] in 0.0 - 1.0 (linear)
 fn unpack_color(color: u32) -> vec4<f32> {
-    return vec4<f32>(
+    let srgb = vec4<f32>(
         f32(color & 255u),
         f32((color >> 8u) & 255u),
         f32((color >> 16u) & 255u),
         f32((color >> 24u) & 255u),
     ) / 255.0;
+
+    let cutoff = srgb < vec3<f32>(0.04045);
+    let lower = srgb / vec3<f32>(12.92);
+    let higher = pow((srgb + vec3<f32>(0.055)) / vec3<f32>(1.055), vec3<f32>(2.4));
+    return select(higher, lower, cutoff);
 }
 
 fn position_from_screen(screen_pos: vec2<f32>) -> vec4<f32> {
