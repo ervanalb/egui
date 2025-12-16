@@ -222,9 +222,6 @@ pub struct Renderer {
 
 impl Renderer {
     /// Creates a renderer for a egui UI.
-    ///
-    /// `output_color_format` should preferably be [`wgpu::TextureFormat::Rgba8Unorm`] or
-    /// [`wgpu::TextureFormat::Bgra8Unorm`], i.e. in gamma-space.
     pub fn new(
         device: &wgpu::Device,
         output_color_format: wgpu::TextureFormat,
@@ -635,9 +632,9 @@ impl Renderer {
                     mip_level_count: 1,
                     sample_count: 1,
                     dimension: wgpu::TextureDimension::D2,
-                    format: wgpu::TextureFormat::Rgba8Unorm,
+                    format: wgpu::TextureFormat::Rgba8UnormSrgb,
                     usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
-                    view_formats: &[wgpu::TextureFormat::Rgba8Unorm],
+                    view_formats: &[wgpu::TextureFormat::Rgba8UnormSrgb],
                 })
             };
             let origin = wgpu::Origin3d::ZERO;
@@ -693,10 +690,6 @@ impl Renderer {
     }
 
     /// Registers a [`wgpu::Texture`] with a [`epaint::TextureId`].
-    ///
-    /// This enables the application to reference the texture inside an image ui element.
-    /// This effectively enables off-screen rendering inside the egui UI. Texture must have
-    /// the texture format [`wgpu::TextureFormat::Rgba8Unorm`].
     pub fn register_native_texture(
         &mut self,
         device: &wgpu::Device,
@@ -743,9 +736,6 @@ impl Renderer {
     ///
     /// This allows applications to specify individual minification/magnification filters as well as
     /// custom mipmap and tiling options.
-    ///
-    /// The texture must have the format [`wgpu::TextureFormat::Rgba8Unorm`].
-    /// Any compare function supplied in the [`wgpu::SamplerDescriptor`] will be ignored.
     #[expect(clippy::needless_pass_by_value)] // false positive
     pub fn register_native_texture_with_sampler_options(
         &mut self,
