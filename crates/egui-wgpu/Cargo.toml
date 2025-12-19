@@ -1,11 +1,12 @@
 [package]
-name = "egui-wgpu"
+name = "radiance-egui-wgpu"
 version.workspace = true
-description = "Bindings for using egui natively using the wgpu library"
+description = "Bindings for using egui natively using the wgpu library (fork with SRGB color fixes for Radiance)"
 authors = [
   "Nils Hasenbanck <nils@hasenbanck.de>",
   "embotech <opensource@embotech.com>",
   "Emil Ernerfeldt <emil.ernerfeldt@gmail.com>",
+  "Eric Van Albert <eric@van.al>",
 ]
 edition.workspace = true
 rust-version.workspace = true

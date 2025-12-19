@@ -1,8 +1,8 @@
 [package]
-name = "egui"
+name = "radiance-egui"
 version.workspace = true
-authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
-description = "An easy-to-use immediate mode GUI that runs on both web and native"
+authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>", "Eric Van Albert <eric@van.al>"]
+description = "An easy-to-use immediate mode GUI that runs on both web and native (fork with SRGB color fixes for Radiance)"
 edition.workspace = true
 rust-version.workspace = true
 homepage = "https://github.com/emilk/egui"

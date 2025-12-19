@@ -1266,9 +1266,6 @@ dependencies = [
  "bytemuck",
  "directories",
  "document-features",
- "egui",
- "egui-wgpu",
- "egui-winit",
  "egui_glow",
  "glow",
  "glutin",
@@ -1284,6 +1281,9 @@ dependencies = [
  "percent-encoding",
  "pollster",
  "profiling",
+ "radiance-egui",
+ "radiance-egui-wgpu",
+ "radiance-egui-winit",
  "raw-window-handle",
  "ron",
  "serde",
@@ -1298,67 +1298,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "egui"
-version = "0.33.2"
-dependencies = [
- "accesskit",
- "ahash",
- "backtrace",
- "bitflags 2.9.4",
- "document-features",
- "emath",
- "epaint",
- "log",
- "nohash-hasher",
- "profiling",
- "ron",
- "serde",
- "smallvec",
- "unicode-segmentation",
-]
-
-[[package]]
-name = "egui-wgpu"
-version = "0.33.2"
-dependencies = [
- "ahash",
- "bytemuck",
- "document-features",
- "egui",
- "epaint",
- "log",
- "profiling",
- "thiserror 2.0.17",
- "type-map",
- "web-time",
- "wgpu",
- "winit",
-]
-
-[[package]]
-name = "egui-winit"
-version = "0.33.2"
-dependencies = [
- "accesskit_winit",
- "arboard",
- "bytemuck",
- "document-features",
- "egui",
- "log",
- "objc2 0.5.2",
- "objc2-foundation 0.2.2",
- "objc2-ui-kit",
- "profiling",
- "raw-window-handle",
- "serde",
- "smithay-clipboard",
- "wayland-cursor",
- "web-time",
- "webbrowser",
- "winit",
-]
-
-[[package]]
 name = "egui_demo_app"
 version = "0.33.2"
 dependencies = [
@@ -1367,7 +1306,6 @@ dependencies = [
  "bytemuck",
  "chrono",
  "eframe",
- "egui",
  "egui_demo_lib",
  "egui_extras",
  "egui_kittest",
@@ -1380,6 +1318,7 @@ dependencies = [
  "profiling",
  "puffin",
  "puffin_http",
+ "radiance-egui",
  "rfd",
  "serde",
  "wasm-bindgen",
@@ -1395,11 +1334,11 @@ dependencies = [
  "chrono",
  "criterion",
  "document-features",
- "egui",
  "egui_extras",
  "egui_kittest",
  "image",
  "mimalloc",
+ "radiance-egui",
  "rand 0.9.2",
  "serde",
  "unicode_names2",
@@ -1412,13 +1351,13 @@ dependencies = [
  "ahash",
  "chrono",
  "document-features",
- "egui",
  "ehttp",
  "enum-map",
  "image",
  "log",
  "mime_guess2",
  "profiling",
+ "radiance-egui",
  "resvg",
  "serde",
  "syntect",
@@ -1430,14 +1369,14 @@ version = "0.33.2"
 dependencies = [
  "bytemuck",
  "document-features",
- "egui",
- "egui-winit",
  "glow",
  "glutin",
  "glutin-winit",
  "log",
  "memoffset",
  "profiling",
+ "radiance-egui",
+ "radiance-egui-winit",
  "wasm-bindgen",
  "web-sys",
  "winit",
@@ -1450,13 +1389,13 @@ dependencies = [
  "dify",
  "document-features",
  "eframe",
- "egui",
- "egui-wgpu",
  "egui_extras",
  "image",
  "kittest",
  "open",
  "pollster",
+ "radiance-egui",
+ "radiance-egui-wgpu",
  "tempfile",
  "wgpu",
 ]
@@ -1465,10 +1404,10 @@ dependencies = [
 name = "egui_tests"
 version = "0.33.2"
 dependencies = [
- "egui",
  "egui_extras",
  "egui_kittest",
  "image",
+ "radiance-egui",
 ]
 
 [[package]]
@@ -3597,6 +3536,67 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ce25767e7b499d1b604768e7cde645d14cc8584231ea6b295e9c9eb22c02e1d1"
 dependencies = [
  "proc-macro2",
+]
+
+[[package]]
+name = "radiance-egui"
+version = "0.33.2"
+dependencies = [
+ "accesskit",
+ "ahash",
+ "backtrace",
+ "bitflags 2.9.4",
+ "document-features",
+ "emath",
+ "epaint",
+ "log",
+ "nohash-hasher",
+ "profiling",
+ "ron",
+ "serde",
+ "smallvec",
+ "unicode-segmentation",
+]
+
+[[package]]
+name = "radiance-egui-wgpu"
+version = "0.33.2"
+dependencies = [
+ "ahash",
+ "bytemuck",
+ "document-features",
+ "epaint",
+ "log",
+ "profiling",
+ "radiance-egui",
+ "thiserror 2.0.17",
+ "type-map",
+ "web-time",
+ "wgpu",
+ "winit",
+]
+
+[[package]]
+name = "radiance-egui-winit"
+version = "0.33.2"
+dependencies = [
+ "accesskit_winit",
+ "arboard",
+ "bytemuck",
+ "document-features",
+ "log",
+ "objc2 0.5.2",
+ "objc2-foundation 0.2.2",
+ "objc2-ui-kit",
+ "profiling",
+ "radiance-egui",
+ "raw-window-handle",
+ "serde",
+ "smithay-clipboard",
+ "wayland-cursor",
+ "web-time",
+ "webbrowser",
+ "winit",
 ]
 
 [[package]]

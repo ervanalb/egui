@@ -1,8 +1,8 @@
 [package]
-name = "egui-winit"
+name = "radiance-egui-winit"
 version.workspace = true
-authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
-description = "Bindings for using egui with winit"
+authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>", "Eric Van Albert <eric@van.al>"]
+description = "Bindings for using egui with winit (fork with SRGB color fixes for Radiance)"
 edition.workspace = true
 rust-version.workspace = true
 homepage = "https://github.com/emilk/egui/tree/main/crates/egui-winit"
